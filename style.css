@@ -95,4 +95,15 @@ li button {
 li button:hover {
   background-color: #b71c1c;
 }
+#task-counter{
+  font-size: 13px;
+  margin-bottom: 12px;
+  color: black;
+  opacity: 0.9;
+}
+.completed{
+  text-decoration: line-through;
+  opacity:0.6;
+  transition:0.3s;
+}
 

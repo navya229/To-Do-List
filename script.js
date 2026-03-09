@@ -6,6 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
   tasks.forEach((task) => renderTask(task));
+  updateTaskCounter();
+  //Can add tasks by clicking enter
+  todoInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      addTaskButton.click();
+    }
+    saveTasks();
+  });
 
   addTaskButton.addEventListener("click", () => {
     const taskText = todoInput.value.trim();
@@ -19,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tasks.push(newTask);
     saveTasks();
     renderTask(newTask);
+    updateTaskCounter();
     todoInput.value = ""; //clear input
     console.log(tasks);
   });
@@ -36,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
       task.completed = !task.completed;
       li.classList.toggle("completed");
       saveTasks();
+      updateTaskCounter();
     });
 
     li.querySelector("button").addEventListener("click", (e) => {
@@ -43,9 +53,17 @@ document.addEventListener("DOMContentLoaded", () => {
       tasks = tasks.filter((t) => t.id === task.id);
       li.remove();
       saveTasks();
+      updateTaskCounter();
     });
 
     todoList.appendChild(li);
+  }
+
+  function updateTaskCounter() {
+    const remaining = tasks.filter((task) => !task.completed).length;
+    document.getElementById("task-counter").textContent =
+      `${remaining} task${remaining !== 1 ? "s" : ""} remaining
+    `;
   }
 
   function saveTasks() {
